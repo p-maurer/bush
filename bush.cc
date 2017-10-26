@@ -4,6 +4,7 @@
 #include <unistd.h> //getcwd
 #include <cstring> //strtok
 #include <string> //insert
+#include <stdio.h> //printf
 
 int loadCwPath(std::string * &cwPath){ //uses getcwd() to load cwPath
 	char buf[100];
@@ -38,6 +39,15 @@ int main(int argc, char * argv[]){
 	std::string * cwPath; //cwPath will hold the current working path
 	int cwPathLength = loadCwPath(cwPath);
 	//Will start from current working directory, can be got from loadCwPath
+
+	//Stack overflow link number1
+	//This prints the environment
+	extern char **environ;
+	int i = 0;
+	while(environ[i]) {
+		printf("%s\n", environ[i++]); // prints in form of "variable=value"
+	}
+
 
 	while(true){
 		printPrompt(cwPathLength, cwPath);
