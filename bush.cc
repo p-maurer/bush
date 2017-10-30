@@ -52,13 +52,11 @@ int main(int argc, char * argv[]){
 	extern char **environ;
 	int i = 0;
 	while(environ[i]) {
-		printf("%s\n", environ[i]); // prints in form of "variable=value"
-		if(strcmp(environ[i], "Path=")){
-			
+		if(std::string(environ[i]).find("PATH=") == 0){
+			std::cout << "``````````````````````````````````````````````````````````````````````````````````````" << std::endl;
 		}
 		++i;
 	}
-
 
 	while(true){
 		std::string * cmdArray;
@@ -67,7 +65,7 @@ int main(int argc, char * argv[]){
 
 		printPrompt(cwPathLength, cwPath);
 		std::getline(std::cin, line);
-		/*std::cout << "Command:" << line << std::endl;
+		std::cout << "Command:" << line << std::endl;
 		std::strcpy(buf, line.c_str());
 		int numCmdElements = countElements(' ', buf);
 		cmdArray = new std::string[numCmdElements];
@@ -87,5 +85,5 @@ int main(int argc, char * argv[]){
 		}
 		if(line.substr(0, 2) == "cd")
 			std::cout << "You're cd'ing" << std::endl;
-	*/}
+	}
 }
