@@ -1,6 +1,9 @@
-//Made by Jonathon Lefler and Peter Maurer
-//Slight change
-//hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh
+/*Made by Jonathon Lefler and Peter Maurer/
+//Start date: October 23, 2017            /
+//This program emulates bash.             /
+//Functionality includes:                 /
+//---------------------------------------*/
+
 #include <iostream> //cout
 #include <unistd.h> //getcwd
 #include <cstring> //strtok, strlen
@@ -9,7 +12,6 @@
 
 int countElements(char delim, char * buf){
 	int count = 0;
-	std::cout << buf << std::endl;
         for(int i = 0; i < strlen(buf); ++i)
                 if(buf[i] == delim)
                         ++count; //count is the size of cwPath
@@ -43,44 +45,44 @@ void printPrompt(int cwPathLength, std::string * cwPath){
 }
 
 int main(int argc, char * argv[]){
-	std::string line = ""; //line will hold the entire command array.
-	std::string * cwPath; //cwPath will hold the current working path
-	int cwPathLength = loadCwPath(cwPath); //cwPathLength will hold the
-	//current working path array size
-
-	//Stack overflow link number1
-	//This prints the environment
+	std::string line = ""; /*line will hold the entire command array. */
+	std::string * cwPath; /*cwPath will hold the current working path */
+	int cwPathLength = loadCwPath(cwPath); /*cwPathLength will hold the
+						 current working path array size*/
+	/*Stack overflow link number1
+	  This prints the environment */
 	extern char **environ;
-	int i = 0;
-	while(environ[i]) {
-		if(std::string(environ[i]).find("PATH=") == 0){
-			std::cout << "``````````````````````````````````````````````````````````````````````````````````````" << std::endl;
+	int pathIndex = 0;
+	while(environ[pathIndex]) {
+		if(std::string(environ[pathIndex]).find("PATH=") == 0){
+			std::cout << environ[pathIndex] << std::endl;
+			break; /* pathIndex now holds our index for PATH */
 		}
-		++i;
+		++pathIndex;
 	}
 
 	while(true){
-		std::string * cmdArray;
+		std::string * cmdArray; /*Holds all of the commands */
 		char buf[1000];
-		char * charCmdElement;
+		char * charCmdElement; /* Used to strtok() input to load cmdArray */
 
 		printPrompt(cwPathLength, cwPath);
 		std::getline(std::cin, line);
 		std::cout << "Command:" << line << std::endl;
+
 		std::strcpy(buf, line.c_str());
 		int numCmdElements = countElements(' ', buf);
-		cmdArray = new std::string[numCmdElements];
+		cmdArray = new std::string[numCmdElements + 1];
+
 		int i = 0;
 		charCmdElement = strtok(buf, " ");
 		while(charCmdElement != NULL){
 			std::string stringCmdElement = charCmdElement;
-			std::cout << charCmdElement << std::endl;
 			cmdArray[i] = stringCmdElement;
 			++i;
 			charCmdElement = strtok(NULL, " ");
 		}
-		std::cout << "hit" << std::endl;
-		if(line.compare("quit") == 0){ //comapre() is in std::string
+		if(line.compare("quit") == 0){ /*compare() is in std::string */
 			std::cout << "quiting" << std::endl;
 			break;
 		}
